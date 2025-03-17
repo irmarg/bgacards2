@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Team Player Stats</title>
+    <link rel="stylesheet" href="cards_styles.css">
+    <link rel="stylesheet" href="navbar.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="cards.html">Player Cards</a>
+        <button id="admin-btn" class="admin-button" onclick="handleAdminClick()">Admin Login</button>
+    </nav>
+    
+
+    <h1 class="title">Player Cards</h1>
+
+    <main>
+        <div class="team-stats">
+            <p>Team: <span id="team"></span></p>
+            <p>Sport: <span id="sport"></span></p>
+            <p>Year: <span id="year"></span></p>
+            <p>Head coach: <span id="head-coach"></span></p>
+        </div>
+
+        <label class="options-label" for="players">Filter Teammates:</label>
+        <select name="players" id="players">
+            <option value="all">All Players</option>
+            <option value="nickname">Nicknames</option>
+            <option value="forward">Position Forward</option>
+            <option value="midfielder">Position Midfielder</option>
+            <option value="defender">Position Defender</option>
+            <option value="goalkeeper">Position Goalkeeper</option>
+        </select>
+
+        <div class="cards" id="player-cards"></div>
+    </main>
+
+    <!-- Player Modal -->
+    <div id="player-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="player-image" src="" alt="Player Image" class="player-img" />
+            <h2 id="player-name"></h2>
+            <p id="player-goals"></p>
+            <p id="player-assists"></p>
+            <p id="player-matches"></p>
+        </div>
+    </div>
+    <!--added canvas for player stats -->
+    <canvas id="playerStats"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="playerStats.js"></script>    
+    <!--added canvas for player stats -->
+    <script src="cards.js"></script>
+    <script src="auth.js"></script>
+    <script>checkAuth();</script>
+    
+</body>
+</html>

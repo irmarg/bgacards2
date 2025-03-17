@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - School Games</title>
+    <link rel="stylesheet" href="home_styles.css">
+    <link rel="stylesheet" href="navbar.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="cards.html">Player Cards</a>
+        <button id="admin-btn" class="admin-button" onclick="handleAdminClick()">Admin Login</button>
+    </nav>
+    
+
+    <h1 class="title">School Games Gallery</h1>
+
+    <div class="slideshow-container">
+        <div class="slide fade">
+            <img src="images/game1.jpg" alt="Game 1">
+        </div>
+        <div class="slide fade">
+            <img src="images/game2.jpg" alt="Game 2">
+        </div>
+        <div class="slide fade">
+            <img src="images/game3.jpg" alt="Game 3">
+        </div>
+
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <script src="home_script.js"></script>
+    <script src="auth.js"></script>
+    <script>checkAuth();</script>
+    
+</body>
+</html>

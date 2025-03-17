@@ -1,0 +1,11 @@
+[
+    {
+        "name": "John Doe",
+        "position": "Forward",
+        "goals": 5,
+        "assists": 2,
+        "saves": 0,
+        "image": "images/player1.jpg",
+        "nickname": "Speedster"
+    }
+]

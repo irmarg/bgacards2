@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="admin.js" defer></script>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+
+    <h2>Add Player</h2>
+    <input type="text" id="player-name" placeholder="Player Name">
+    <input type="text" id="player-position" placeholder="Position">
+    <input type="number" id="player-goals" placeholder="Goals">
+    <input type="number" id="player-assists" placeholder="Assists">
+    <input type="number" id="player-saves" placeholder="Saves">
+    <input type="text" id="player-image" placeholder="Image URL">
+    <button onclick="addPlayer()">Add Player</button>
+
+    <h2>Players</h2>
+    <div id="player-list"></div>
+
+    <h2>Add Game</h2>
+    <input type="text" id="team1" placeholder="Team 1">
+    <input type="text" id="team2" placeholder="Team 2">
+    <input type="text" id="score" placeholder="Score">
+    <input type="date" id="game-date">
+    <button onclick="addGame()">Add Game</button>
+
+    <h2>Games</h2>
+    <div id="game-list"></div>
+</body>
+</html>

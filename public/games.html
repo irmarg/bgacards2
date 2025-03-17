@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - Search Matches</title>
+    <link rel="stylesheet" href="games_styles.css">
+    <link rel="stylesheet" href="navbar.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="cards.html">Player Cards</a>
+        <button id="admin-btn" class="admin-button" onclick="handleAdminClick()">Admin Login</button>
+    </nav>
+    
+
+    <h1 class="title">Search Previous Games</h1>
+
+    <div class="search-container">
+
+<select id="filter-select">
+    <option value="">Select Filter</option>
+    <option value="player">By Player</option>
+    <option value="team">By Team</option>
+    <option value="date">By Date</option>
+</select>
+<input type="text" id="search-input" placeholder="Search...">
+<button id="search-button">Search</button>
+<!--date range-->
+<label for="from-date">From:</label>
+<input type="date" id="from-date">
+
+<label for="to-date">To:</label>
+<input type="date" id="to-date">
+    </div>
+    
+    
+
+    <div class="game-results" id="game-results"></div>
+
+    <script src="games_script.js"></script>
+    <script src="auth.js"></script>
+    <script>checkAuth();</script>
+    
+</body>
+</html>
