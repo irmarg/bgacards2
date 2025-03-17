@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'password';
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -31,7 +33,7 @@ app.post('/api/games', (req, res) => {
 
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    if (username === 'admin' && password === 'password') {
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
         res.json({ success: true });
     } else {
         res.status(401).json({ success: false });
