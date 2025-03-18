@@ -35,5 +35,18 @@
     <!-- Game List -->
     <h2>Games</h2>
     <div id="game-list"></div>
+
+    <!-- Slideshow Management -->
+    <h2>Slideshow Images</h2>
+    <input type="text" id="slide-image-url" placeholder="Image URL">
+    <button onclick="addSlide()">Add Slide</button>
+    <div id="slide-list"></div>
+
+    <!-- Logout Button -->
+    <div id="logout-section">
+        <button onclick="localStorage.removeItem('isAdmin'); location.href='index.html';">
+            Logout
+        </button>
+    </div>
 </body>
 </html>

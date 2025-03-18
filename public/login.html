@@ -9,9 +9,14 @@
 <body>
     <div class="login-container">
         <h2>Admin Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
+        <form onsubmit="login(); return false;">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <input type="checkbox" onclick="togglePassword()"> Show Password
+
+        </form>
+        
         <p id="error-message" style="color: red;"></p>
     </div>
 

@@ -43,5 +43,28 @@ app.post('/api/login', (req, res) => {
         res.status(401).json({ success: false });
     }
 });
+// DELETE player
+app.delete('/api/players/:index', (req, res) => {
+    const index = parseInt(req.params.index);
+    if (players[index]) {
+        players.splice(index, 1);
+        fs.writeFileSync('data/players.json', JSON.stringify(players, null, 2));
+        res.json({ message: 'Player deleted' });
+    } else {
+        res.status(404).json({ error: 'Player not found' });
+    }
+});
+
+// PUT (Edit) player
+app.put('/api/players/:index', (req, res) => {
+    const index = parseInt(req.params.index);
+    if (players[index]) {
+        players[index] = req.body;
+        fs.writeFileSync('data/players.json', JSON.stringify(players, null, 2));
+        res.json({ message: 'Player updated' });
+    } else {
+        res.status(404).json({ error: 'Player not found' });
+    }
+});
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
