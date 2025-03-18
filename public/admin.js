@@ -199,3 +199,47 @@ function setupLogoutButton() {
 
     document.getElementById('logout-section').appendChild(logoutBtn);
 }
+// Load existing slideshow images
+function loadSlides() {
+    fetch('/api/slides')
+        .then(res => res.json())
+        .then(slides => {
+            const list = document.getElementById('slide-list');
+            list.innerHTML = '';
+            slides.forEach((url, index) => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <img src="${url}" alt="Slide Image" style="max-width:200px;">
+                    <button onclick="deleteSlide(${index})">Delete</button>
+                `;
+                list.appendChild(div);
+            });
+        });
+}
+
+// Add a new slideshow image
+function addSlide() {
+    const url = document.getElementById('slide-image-url').value;
+    fetch('/api/slides', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+    })
+    .then(res => res.json())
+    .then(() => {
+        alert('Slide added!');
+        document.getElementById('slide-image-url').value = '';
+        loadSlides();
+    });
+}
+
+// Delete a slide
+function deleteSlide(index) {
+    fetch(`/api/slides/${index}`, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(() => {
+            alert('Slide deleted');
+            loadSlides();
+        });
+}
+

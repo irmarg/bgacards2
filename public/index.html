@@ -19,7 +19,7 @@
 
     <h1 class="title">School Games Gallery</h1>
 
-    <div class="slideshow-container">
+    <div id="slideshow" class="slideshow-container">
         <div class="slide fade">
             <img src="images/game1.jpg" alt="Game 1">
         </div>
@@ -37,6 +37,29 @@
     <script src="home_script.js"></script>
     <script src="auth.js"></script>
     <script>checkAuth();</script>
-    
+    <script>
+        fetch('/api/slides')
+            .then(res => res.json())
+            .then(slides => {
+                const container = document.getElementById('slideshow');
+                slides.forEach(url => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.classList.add('slide');
+                    container.appendChild(img);
+                });
+                startSlideshow();
+            });
+        
+        function startSlideshow() {
+            const slides = document.querySelectorAll('.slide');
+            let index = 0;
+            setInterval(() => {
+                slides.forEach((img, i) => img.style.display = (i === index ? 'block' : 'none'));
+                index = (index + 1) % slides.length;
+            }, 3000);
+        }
+        </script>
+        
 </body>
 </html>

@@ -41,6 +41,31 @@ app.post('/api/login', (req, res) => {
         res.status(401).json({ success: false });
     }
 });
+let slides = JSON.parse(fs.readFileSync('data/slides.json'));
+
+// Get all slideshow images
+app.get('/api/slides', (req, res) => {
+    res.json(slides);
+});
+
+// Add a slideshow image
+app.post('/api/slides', (req, res) => {
+    slides.push(req.body.url);
+    fs.writeFileSync('data/slides.json', JSON.stringify(slides, null, 2));
+    res.status(201).json({ message: 'Slide added' });
+});
+
+// Delete a slideshow image
+app.delete('/api/slides/:index', (req, res) => {
+    const index = parseInt(req.params.index);
+    if (slides[index]) {
+        slides.splice(index, 1);
+        fs.writeFileSync('data/slides.json', JSON.stringify(slides, null, 2));
+        res.json({ message: 'Slide deleted' });
+    } else {
+        res.status(404).json({ error: 'Slide not found' });
+    }
+});
 
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
