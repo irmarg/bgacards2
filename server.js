@@ -12,7 +12,7 @@ app.use(express.static('public'));
 let players = JSON.parse(fs.readFileSync('data/players.json'));
 let games = JSON.parse(fs.readFileSync('data/games.json'));
 
-app.get('/api/players', (req, res) => {
+app.get('/api/players', (_req, res) => {
     res.json(players);
 });
 
@@ -44,7 +44,7 @@ app.post('/api/login', (req, res) => {
 let slides = JSON.parse(fs.readFileSync('data/slides.json'));
 
 // Get all slideshow images
-app.get('/api/slides', (req, res) => {
+app.get('/api/slides', (_req, res) => {
     res.json(slides);
 });
 
