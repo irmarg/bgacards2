@@ -19,6 +19,14 @@ body {
     justify-content: space-between !important;
     align-items: center !important;
 }
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
 
 /* Slideshow */
 .slideshow-container {
@@ -95,6 +103,22 @@ body {
 
 .prev:hover, .next:hover {
     background: rgba(255, 255, 255, 0.8);
+}
+button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
 }
 
 /* Fade Animation */
