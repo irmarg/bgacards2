@@ -9,57 +9,57 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="index.html">Home</a>
-        <a href="games.html">Games</a>
-        <a href="cards.html">Player Cards</a>
-        <button id="admin-btn" class="admin-button" onclick="handleAdminClick()">Admin Login</button>
-    </nav>
-    
+<nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="games.html">Games</a>
+    <a href="cards.html">Player Cards</a>
+    <button id="admin-btn" class="admin-button" onclick="handleAdminClick()">Admin Login</button>
+</nav>
 
-    <h1 class="title">School Games Gallery</h1>
+<h1 class="title">School Games Gallery</h1>
 
-    <div id="slideshow" class="slideshow-container">
-        <div class="slide fade">
-            <img src="images/game1.jpg" alt="Game 1">
-        </div>
-        <div class="slide fade">
-            <img src="images/game2.jpg" alt="Game 2">
-        </div>
-        <div class="slide fade">
-            <img src="images/game3.jpg" alt="Game 3">
-        </div>
+<div id="slideshow" class="slideshow-container">
+    <!-- Slides will be dynamically injected here -->
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+</div>
 
-        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-        <a class="next" onclick="changeSlide(1)">&#10095;</a>
-    </div>
+<script src="auth.js"></script>
+<script>checkAuth();</script>
 
-    <script src="home_script.js"></script>
-    <script src="auth.js"></script>
-    <script>checkAuth();</script>
-    <script>
-        fetch('/api/slides')
-            .then(res => res.json())
-            .then(slides => {
-                const container = document.getElementById('slideshow');
-                slides.forEach(url => {
-                    const img = document.createElement('img');
-                    img.src = url;
-                    img.classList.add('slide');
-                    container.appendChild(img);
-                });
-                startSlideshow();
+<script>
+    let slidesArray = [];
+    let slideIndex = 0;
+
+    fetch('/api/slides')
+        .then(res => res.json())
+        .then(slides => {
+            const container = document.getElementById('slideshow');
+            slides.forEach(slide => {
+                const slideDiv = document.createElement('div');
+                slideDiv.classList.add('slide', 'fade');
+                slideDiv.innerHTML = `<img src="${slide.url}" alt="Slide Image" style="width:100%; max-height:400px; object-fit:cover;">`;
+                container.insertBefore(slideDiv, container.querySelector('.prev'));
+                slidesArray.push(slideDiv);
             });
-        
-        function startSlideshow() {
-            const slides = document.querySelectorAll('.slide');
-            let index = 0;
-            setInterval(() => {
-                slides.forEach((img, i) => img.style.display = (i === index ? 'block' : 'none'));
-                index = (index + 1) % slides.length;
-            }, 3000);
-        }
-        </script>
-        
+            showSlides();
+        });
+
+    function changeSlide(n) {
+        slideIndex += n;
+        showSlides();
+    }
+
+    function showSlides() {
+        if (slidesArray.length === 0) return;
+        slideIndex = (slideIndex + slidesArray.length) % slidesArray.length;
+        slidesArray.forEach((slide, i) => {
+            slide.style.display = (i === slideIndex) ? 'block' : 'none';
+        });
+    }
+
+    setInterval(() => changeSlide(1), 3000);
+</script>
+
 </body>
 </html>

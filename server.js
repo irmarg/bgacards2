@@ -29,7 +29,10 @@ const gameSchema = new mongoose.Schema({
     score: String,
     date: String
 });
-
+const slideSchema = new mongoose.Schema({
+    url: String
+});
+const Slide = mongoose.model('Slide', slideSchema);
 const Player = mongoose.model('Player', playerSchema);
 const Game = mongoose.model('Game', gameSchema);
 
@@ -65,6 +68,23 @@ app.post('/api/games', async (req, res) => {
     const game = new Game(req.body);
     await game.save();
     res.status(201).json({ message: 'Game added' });
+});
+// --- Slides API ---
+app.get('/api/slides', async (_req, res) => {
+    const slides = await Slide.find();
+    const urls = slides.map(s => ({ id: s._id, url: s.url }));
+    res.json(urls);
+});
+
+app.post('/api/slides', async (req, res) => {
+    const slide = new Slide({ url: req.body.url });
+    await slide.save();
+    res.status(201).json({ message: 'Slide added' });
+});
+
+app.delete('/api/slides/:id', async (req, res) => {
+    await Slide.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Slide deleted' });
 });
 
 // --- Login (Simple Hardcoded) ---

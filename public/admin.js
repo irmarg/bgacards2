@@ -165,11 +165,11 @@ function loadSlides() {
         .then(slides => {
             const list = document.getElementById('slide-list');
             list.innerHTML = '';
-            slides.forEach((url, index) => {
+            slides.forEach(slide => {
                 const div = document.createElement('div');
                 div.innerHTML = `
-                    <img src="${url}" alt="Slide Image" style="max-width:200px;">
-                    <button onclick="deleteSlide(${index})">Delete</button>
+                    <img src="${slide.url}" alt="Slide Image" style="max-width:200px;">
+                    <button onclick="deleteSlide('${slide.id}')">Delete</button>
                 `;
                 list.appendChild(div);
             });
@@ -191,14 +191,15 @@ function addSlide() {
     });
 }
 
-function deleteSlide(index) {
-    fetch(`/api/slides/${index}`, { method: 'DELETE' })
+function deleteSlide(id) {
+    fetch(`/api/slides/${id}`, { method: 'DELETE' })
         .then(res => res.json())
         .then(() => {
             alert('Slide deleted');
             loadSlides();
         });
 }
+
 
 // --- Logout ---
 function setupLogoutButton() {
