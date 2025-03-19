@@ -39,15 +39,18 @@ function setupFilter() {
     const filter = document.getElementById('filter');
     filter.addEventListener('change', () => {
         const value = filter.value.toLowerCase();
+
         fetch('/api/players')
             .then(res => res.json())
             .then(players => {
                 const filtered = players.filter(player => {
+                    const pos = (player.position || '').toLowerCase();
                     if (value === 'all') return true;
                     if (value === 'nickname') return player.nickname && player.nickname.trim() !== '';
-                    return player.position && player.position.toLowerCase() === value;
+                    return pos === value;
                 });
                 renderPlayers(filtered);
             });
     });
 }
+
