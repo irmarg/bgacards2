@@ -6,15 +6,11 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-// --- MongoDB Connection ---
-const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('✅ Connected to MongoDB'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// --- Mongoose Schemas ---
+const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
+
+mongoose.connect(MONGO_URI);
+
 const playerSchema = new mongoose.Schema({
     name: String,
     position: String,

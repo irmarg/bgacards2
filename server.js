@@ -8,11 +8,7 @@ app.use(express.static('public'));
 
 // --- MongoDB Connection ---
 const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('✅ Connected to MongoDB'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+mongoose.connect(MONGO_URI);
 
 // --- Mongoose Schemas ---
 const playerSchema = new mongoose.Schema({
@@ -74,12 +70,13 @@ app.post('/api/games', async (req, res) => {
 // --- Login (Simple Hardcoded) ---
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    if (username === 'admin' && password === 'password') {
+    if (username === 'admin' && password === 'adminpassword') {
         res.json({ success: true });
     } else {
         res.status(401).json({ success: false });
     }
 });
+
 
 // --- Start Server ---
 app.listen(PORT, () => console.log(`✅ Server running at http://localhost:${PORT}`));
