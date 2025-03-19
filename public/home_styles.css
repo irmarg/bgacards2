@@ -31,47 +31,16 @@ body::before {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(5px);
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
     margin-bottom: 20px;
 }
 .slide img {
     width: 100%;
     height: auto;
     max-height: 80vh; /* Prevents overly tall images */
+    max-width: 80vh; /* Prevents overly wide images */
     object-fit: contain;
     border-radius: 15px;
-}
-/* Edit & Delete Slide Buttons */
-.edit-slide, .delete-slide {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 8px 12px;
-    border-radius: 5px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 5px;
-}
-.edit-slide:hover, .delete-slide:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
-}
-/* Add Slide Button */
-.add-slide {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 18px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.add-slide:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
 }
 /* Navigation Arrows */
 .prev, .next {
