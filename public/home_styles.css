@@ -30,23 +30,19 @@ body::before {
 
 /* Slideshow */
 .slideshow-container {
+    width: 100%;
+    max-width: 100%;
     position: relative;
-    max-width: 80%;
-    margin: auto;
+    margin: 0 auto;
+    border-radius: 15px;
     overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-.slide {
-    display: none;
 }
 
 .slide img {
     width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 10px;
+    height: auto; /* Preserve image aspect ratio */
+    display: block;
+    border-radius: 15px;
 }
 
 
@@ -91,18 +87,22 @@ body::before {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 2rem;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 10px;
+    background-color: rgba(0,0,0,0.5);
     color: white;
-    background: rgba(0, 0, 0, 0.5);
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
     border-radius: 50%;
     user-select: none;
 }
 
-.prev { left: 10px; }
-.next { right: 10px; }
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
 
 .prev:hover, .next:hover {
     background: rgba(255, 255, 255, 0.8);
