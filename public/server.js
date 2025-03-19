@@ -1,85 +1,85 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.static('public'));
 
-// In-memory data (no JSON files!)
-let players = [
-  {
-    team: "BGA",
-    sport: "Football",
-    year: 2025,
-    Coach: { coachName: "Bacho Minadze" },
-    players: [
-      {
-        name: "Diego Maradona",
-        position: "midfielder",
-        number: 10,
-        goals: 5,
-        assists: 5,
-        matches: 7,
-        image: "images/maradona.jpg"
-      }
-    ]
-  }
-];
+// --- MongoDB Connection ---
+const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-let games = [];
-
-// Get all players
-app.get('/api/players', (req, res) => {
-  res.json(players);
+// --- Mongoose Schemas ---
+const playerSchema = new mongoose.Schema({
+    name: String,
+    position: String,
+    number: Number,
+    goals: Number,
+    assists: Number,
+    matches: Number,
+    saves: Number,
+    image: String,
+    nickname: String
 });
 
-// Add a player (adds to first team for demo)
-app.post('/api/players', (req, res) => {
-  players[0].players.push(req.body);
-  res.status(201).json({ message: 'Player added' });
+const gameSchema = new mongoose.Schema({
+    team1: String,
+    team2: String,
+    score: String,
+    date: String
 });
 
-// Delete a player by index in players[0].players
-app.delete('/api/players/:index', (req, res) => {
-  const index = parseInt(req.params.index);
-  if (players[0].players[index]) {
-    players[0].players.splice(index, 1);
-    res.json({ message: 'Player deleted' });
-  } else {
-    res.status(404).json({ error: 'Player not found' });
-  }
+const Player = mongoose.model('Player', playerSchema);
+const Game = mongoose.model('Game', gameSchema);
+
+// --- Players API ---
+app.get('/api/players', async (_req, res) => {
+    const players = await Player.find();
+    res.json(players);
 });
 
-// Update a player by index in players[0].players
-app.put('/api/players/:index', (req, res) => {
-  const index = parseInt(req.params.index);
-  if (players[0].players[index]) {
-    players[0].players[index] = req.body;
+app.post('/api/players', async (req, res) => {
+    const player = new Player(req.body);
+    await player.save();
+    res.status(201).json({ message: 'Player added' });
+});
+
+app.put('/api/players/:id', async (req, res) => {
+    await Player.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: 'Player updated' });
-  } else {
-    res.status(404).json({ error: 'Player not found' });
-  }
 });
 
-// Get all games
-app.get('/api/games', (req, res) => {
-  res.json(games);
+app.delete('/api/players/:id', async (req, res) => {
+    await Player.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Player deleted' });
 });
 
-// Add a game
-app.post('/api/games', (req, res) => {
-  games.push(req.body);
-  res.status(201).json({ message: 'Game added' });
+// --- Games API ---
+app.get('/api/games', async (_req, res) => {
+    const games = await Game.find();
+    res.json(games);
 });
 
-// Simple login (hardcoded)
+app.post('/api/games', async (req, res) => {
+    const game = new Game(req.body);
+    await game.save();
+    res.status(201).json({ message: 'Game added' });
+});
+
+// --- Login (Simple Hardcoded) ---
 app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username === 'admin' && password === 'password') {
-    res.json({ success: true });
-  } else {
-    res.status(401).json({ success: false });
-  }
+    const { username, password } = req.body;
+    if (username === 'admin' && password === 'password') {
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ success: false });
+    }
 });
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+// --- Start Server ---
+app.listen(PORT, () => console.log(`✅ Server running at http://localhost:${PORT}`));

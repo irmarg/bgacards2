@@ -1,85 +1,85 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
-const PORT = process.env.PORT || 3000;
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'adminpassword';
+const PORT = 3000;
 
 app.use(express.json());
 app.use(express.static('public'));
 
-// In-memory data (no JSON files)
-let players = [
-  {
-    team: "BGA",
-    sport: "Football",
-    year: 2025,
-    Coach: { coachName: "Bacho Minadze" },
-    players: [
-      {
-        name: "Diego Maradona",
-        position: "midfielder",
-        number: 10,
-        goals: 5,
-        assists: 5,
-        matches: 7,
-        image: "images/maradona.jpg"
-      }
-    ]
-  }
-];
+// --- MongoDB Connection ---
+const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-let games = [];
-let slides = []; // Slideshow images stored as array of URLs
-
-// --- Players Endpoints ---
-app.get('/api/players', (_req, res) => {
-  res.json(players);
+// --- Mongoose Schemas ---
+const playerSchema = new mongoose.Schema({
+    name: String,
+    position: String,
+    number: Number,
+    goals: Number,
+    assists: Number,
+    matches: Number,
+    saves: Number,
+    image: String,
+    nickname: String
 });
 
-app.post('/api/players', (req, res) => {
-  players[0].players.push(req.body);
-  res.status(201).json({ message: 'Player added' });
+const gameSchema = new mongoose.Schema({
+    team1: String,
+    team2: String,
+    score: String,
+    date: String
 });
 
-// --- Games Endpoints ---
-app.get('/api/games', (_req, res) => {
-  res.json(games);
+const Player = mongoose.model('Player', playerSchema);
+const Game = mongoose.model('Game', gameSchema);
+
+// --- Players API ---
+app.get('/api/players', async (_req, res) => {
+    const players = await Player.find();
+    res.json(players);
 });
 
-app.post('/api/games', (req, res) => {
-  games.push(req.body);
-  res.status(201).json({ message: 'Game added' });
+app.post('/api/players', async (req, res) => {
+    const player = new Player(req.body);
+    await player.save();
+    res.status(201).json({ message: 'Player added' });
 });
 
-// --- Login Endpoint ---
+app.put('/api/players/:id', async (req, res) => {
+    await Player.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ message: 'Player updated' });
+});
+
+app.delete('/api/players/:id', async (req, res) => {
+    await Player.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Player deleted' });
+});
+
+// --- Games API ---
+app.get('/api/games', async (_req, res) => {
+    const games = await Game.find();
+    res.json(games);
+});
+
+app.post('/api/games', async (req, res) => {
+    const game = new Game(req.body);
+    await game.save();
+    res.status(201).json({ message: 'Game added' });
+});
+
+// --- Login (Simple Hardcoded) ---
 app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-  console.log('Login attempt:', username, password);  // Debug
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
-    res.json({ success: true });
-  } else {
-    res.status(401).json({ success: false });
-  }
+    const { username, password } = req.body;
+    if (username === 'admin' && password === 'password') {
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ success: false });
+    }
 });
 
-// --- Slideshow Endpoints ---
-app.get('/api/slides', (_req, res) => {
-  res.json(slides);
-});
-
-app.post('/api/slides', (req, res) => {
-  slides.push(req.body.url);
-  res.status(201).json({ message: 'Slide added' });
-});
-
-app.delete('/api/slides/:index', (req, res) => {
-  const index = parseInt(req.params.index);
-  if (slides[index]) {
-    slides.splice(index, 1);
-    res.json({ message: 'Slide deleted' });
-  } else {
-    res.status(404).json({ error: 'Slide not found' });
-  }
-});
-
+// --- Start Server ---
 app.listen(PORT, () => console.log(`✅ Server running at http://localhost:${PORT}`));
