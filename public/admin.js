@@ -242,4 +242,3 @@ function deleteSlide(index) {
             loadSlides();
         });
 }
-
