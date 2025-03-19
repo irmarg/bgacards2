@@ -169,6 +169,14 @@ body::before {
     cursor: pointer;
     color: var(--black);
 }
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 300px;
+    margin: 100px auto;
+}
 
 /* Player Image in Modal */
 .player-image {
@@ -176,6 +184,20 @@ body::before {
     height: 200px;
     object-fit: cover; /* Ensures image fills area without stretching */
     border-radius: 10px;
+}
+.form-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 250px;
+    margin: 5px 0;
+}
+.form-button {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 

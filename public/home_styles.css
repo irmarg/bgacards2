@@ -37,8 +37,8 @@ body::before {
 .slide img {
     width: 100%;
     height: auto;
-    max-height: 80vh; /* Prevents overly tall images */
-    max-width: 80vh; /* Prevents overly wide images */
+    max-height: 100vh; /* Prevents overly tall images */
+    max-width: 100vh; /* Prevents overly wide images */
     object-fit: contain;
     border-radius: 15px;
 }
@@ -79,6 +79,28 @@ button {
 button:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
+}
+.form-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 250px;
+    margin: 5px 0;
+}
+.form-button {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 300px;
+    margin: 100px auto;
 }
 
 /* Fade Animation */
