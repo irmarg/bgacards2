@@ -69,6 +69,18 @@ app.post('/api/games', async (req, res) => {
     await game.save();
     res.status(201).json({ message: 'Game added' });
 });
+// --- Update Game ---
+app.put('/api/games/:id', async (req, res) => {
+    await Game.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ message: 'Game updated' });
+});
+
+// --- Delete Game ---
+app.delete('/api/games/:id', async (req, res) => {
+    await Game.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Game deleted' });
+});
+
 // --- Slides API ---
 app.get('/api/slides', async (_req, res) => {
     const slides = await Slide.find();
