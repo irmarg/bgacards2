@@ -1,80 +1,82 @@
-// admin.js
 console.log("admin.js loaded");
 
-// --- Authentication Check on Page Load ---
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
     loadPlayers();
     loadGames();
     loadSlides();
-    setupLogoutButton(); 
+    setupLogoutButton();
 });
 
+let editingPlayerId = null;
 
-// --- Player Management ---
+// --- Load Players ---
 function loadPlayers() {
     fetch('/api/players')
         .then(res => res.json())
         .then(players => {
             const list = document.getElementById('player-list');
             list.innerHTML = '';
-            players.forEach((p, index) => {
+            players.forEach(p => {
                 const div = document.createElement('div');
                 div.innerHTML = `
                     <strong>${p.name}</strong> - ${p.position}
-                    <button onclick="editPlayer(${index})">Edit</button>
-                    <button onclick="deletePlayer(${index})">Delete</button>
+                    <button onclick="startEditPlayer('${p._id}')">Edit</button>
+                    <button onclick="deletePlayer('${p._id}')">Delete</button>
                 `;
                 list.appendChild(div);
             });
         });
 }
 
-function addPlayer() {
+// --- Add or Update Player ---
+function addOrUpdatePlayer() {
     const player = getPlayerInput();
-    fetch('/api/players', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(player)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert('Player added!');
-        clearPlayerForm();
-        loadPlayers();
-    });
+
+    if (editingPlayerId) {
+        fetch(`/api/players/${editingPlayerId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(player)
+        })
+        .then(res => res.json())
+        .then(() => {
+            alert('Player updated!');
+            resetPlayerForm();
+            loadPlayers();
+        });
+    } else {
+        fetch('/api/players', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(player)
+        })
+        .then(res => res.json())
+        .then(() => {
+            alert('Player added!');
+            clearPlayerForm();
+            loadPlayers();
+        });
+    }
 }
 
-function editPlayer(index) {
+// --- Edit Player ---
+function startEditPlayer(id) {
     fetch('/api/players')
         .then(res => res.json())
         .then(players => {
-            const p = players[index];
-            setPlayerForm(p);
-            const btn = document.getElementById('player-submit');
-            btn.textContent = 'Save Changes';
-            btn.onclick = () => saveEditedPlayer(index);
+            const p = players.find(pl => pl._id === id);
+            if (p) {
+                editingPlayerId = id;
+                setPlayerForm(p);
+                document.getElementById('player-submit').textContent = 'Save Changes';
+            }
         });
 }
 
-function saveEditedPlayer(index) {
-    const player = getPlayerInput();
-    fetch(`/api/players/${index}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(player)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert('Player updated!');
-        resetPlayerButton();
-        clearPlayerForm();
-        loadPlayers();
-    });
-}
-
-function deletePlayer(index) {
-    fetch(`/api/players/${index}`, { method: 'DELETE' })
+// --- Delete Player ---
+function deletePlayer(id) {
+    fetch(`/api/players/${id}`, { method: 'DELETE' })
         .then(res => res.json())
         .then(() => {
             alert('Player deleted');
@@ -82,43 +84,44 @@ function deletePlayer(index) {
         });
 }
 
+// --- Input Helpers ---
 function getPlayerInput() {
     return {
         name: document.getElementById('player-name').value,
         position: document.getElementById('player-position').value,
+        number: parseInt(document.getElementById('player-number').value) || 0,
         goals: parseInt(document.getElementById('player-goals').value) || 0,
         assists: parseInt(document.getElementById('player-assists').value) || 0,
         saves: parseInt(document.getElementById('player-saves').value) || 0,
-        image: document.getElementById('player-image').value,
-        nickname: ""
+        matches: parseInt(document.getElementById('player-matches').value) || 0,
+        nickname: document.getElementById('player-nickname').value || '',
+        image: document.getElementById('player-image').value
     };
 }
 
 function setPlayerForm(p) {
     document.getElementById('player-name').value = p.name;
     document.getElementById('player-position').value = p.position;
-    document.getElementById('player-goals').value = p.goals;
-    document.getElementById('player-assists').value = p.assists;
-    document.getElementById('player-saves').value = p.saves;
+    document.getElementById('player-number').value = p.number || '';
+    document.getElementById('player-goals').value = p.goals || '';
+    document.getElementById('player-assists').value = p.assists || '';
+    document.getElementById('player-saves').value = p.saves || '';
+    document.getElementById('player-matches').value = p.matches || '';
+    document.getElementById('player-nickname').value = p.nickname || '';
     document.getElementById('player-image').value = p.image;
 }
 
 function clearPlayerForm() {
-    document.getElementById('player-name').value = '';
-    document.getElementById('player-position').value = '';
-    document.getElementById('player-goals').value = '';
-    document.getElementById('player-assists').value = '';
-    document.getElementById('player-saves').value = '';
-    document.getElementById('player-image').value = '';
+    document.querySelectorAll('input').forEach(input => input.value = '');
 }
 
-function resetPlayerButton() {
-    const btn = document.getElementById('player-submit');
-    btn.textContent = 'Add Player';
-    btn.onclick = addPlayer;
+function resetPlayerForm() {
+    editingPlayerId = null;
+    clearPlayerForm();
+    document.getElementById('player-submit').textContent = 'Add Player';
 }
 
-// --- Game Management ---
+// --- Games Management (still using index unless updated API) ---
 function loadGames() {
     fetch('/api/games')
         .then(res => res.json())
@@ -129,7 +132,6 @@ function loadGames() {
                 const div = document.createElement('div');
                 div.innerHTML = `
                     <strong>${g.team1} vs ${g.team2}</strong> - ${g.score} on ${g.date}
-                    <button onclick="deleteGame(${index})">Delete</button>
                 `;
                 list.appendChild(div);
             });
@@ -156,50 +158,7 @@ function addGame() {
     });
 }
 
-function deleteGame(index) {
-    fetch(`/api/games/${index}`, { method: 'DELETE' })
-        .then(res => res.json())
-        .then(() => {
-            alert('Game deleted');
-            loadGames();
-        });
-}
-
-// --- Slideshow Image Management (placeholder) ---
-function loadSlides() {
-    // Placeholder for slideshow load
-    // Fetch and render slides
-    // Add edit/delete buttons for slides
-}
-
-// --- Admin Login Button Logic ---
-function handleAdminClick() {
-    window.location.href = 'login.html';
-}
-
-// --- Logout Functionality ---
-function setupLogoutButton() {
-    const logoutBtn = document.createElement('button');
-    logoutBtn.textContent = 'Logout';
-
-    // Style for visibility
-    logoutBtn.style.marginTop = '20px';
-    logoutBtn.style.padding = '10px 20px';
-    logoutBtn.style.backgroundColor = '#007BFF';
-    logoutBtn.style.color = 'white';
-    logoutBtn.style.border = 'none';
-    logoutBtn.style.borderRadius = '5px';
-    logoutBtn.style.cursor = 'pointer';
-
-    logoutBtn.onclick = () => {
-        localStorage.removeItem('isAdmin');
-        alert('Logged out successfully.');
-        window.location.href = 'index.html';
-    };
-
-    document.getElementById('logout-section').appendChild(logoutBtn);
-}
-// Load existing slideshow images
+// --- Slideshow Management ---
 function loadSlides() {
     fetch('/api/slides')
         .then(res => res.json())
@@ -217,7 +176,6 @@ function loadSlides() {
         });
 }
 
-// Add a new slideshow image
 function addSlide() {
     const url = document.getElementById('slide-image-url').value;
     fetch('/api/slides', {
@@ -233,7 +191,6 @@ function addSlide() {
     });
 }
 
-// Delete a slide
 function deleteSlide(index) {
     fetch(`/api/slides/${index}`, { method: 'DELETE' })
         .then(res => res.json())
@@ -241,4 +198,25 @@ function deleteSlide(index) {
             alert('Slide deleted');
             loadSlides();
         });
+}
+
+// --- Logout ---
+function setupLogoutButton() {
+    const logoutBtn = document.createElement('button');
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.style.marginTop = '20px';
+    logoutBtn.style.padding = '10px 20px';
+    logoutBtn.style.backgroundColor = '#007BFF';
+    logoutBtn.style.color = 'white';
+    logoutBtn.style.border = 'none';
+    logoutBtn.style.borderRadius = '5px';
+    logoutBtn.style.cursor = 'pointer';
+
+    logoutBtn.onclick = () => {
+        localStorage.removeItem('isAdmin');
+        alert('Logged out successfully.');
+        window.location.href = 'index.html';
+    };
+
+    document.getElementById('logout-section').appendChild(logoutBtn);
 }
