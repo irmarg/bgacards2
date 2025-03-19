@@ -21,7 +21,7 @@ function renderPlayers(players) {
         const card = document.createElement('div');
         card.className = 'player-card';
         card.innerHTML = `
-            <img src="${player.image || 'images/default.jpg'}" alt="${player.name}" class="player-image">
+    <img src="${player.image || 'images/default.jpg'}" alt="${player.name}" class="player-image">
             <h3>${player.name || 'Unknown'}</h3>
             <p><strong>Nickname:</strong> ${player.nickname || 'N/A'}</p>
             <p><strong>Position:</strong> ${player.position || 'N/A'}</p>
