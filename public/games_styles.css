@@ -87,7 +87,6 @@ body::before {
         flex-direction: column;
         align-items: center;
     }
-
     .game-results {
         flex-direction: column;
         align-items: center;

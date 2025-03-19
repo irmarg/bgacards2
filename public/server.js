@@ -66,5 +66,4 @@ app.put('/api/players/:index', (req, res) => {
         res.status(404).json({ error: 'Player not found' });
     }
 });
-
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
