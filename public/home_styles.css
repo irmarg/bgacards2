@@ -6,7 +6,6 @@ body {
     background-size: cover;
     color: white;
 }
-
 /* Title */
 .title {
     font-size: 2.5rem;
@@ -27,25 +26,21 @@ body::before {
     background: rgba(0, 0, 0, 0.6);
     z-index: -1;
 }
-
 /* Slideshow */
 .slideshow-container {
-    width: 100%;
-    max-width: 100%;
-    position: relative;
-    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    padding: 10px;
     border-radius: 15px;
-    overflow: hidden;
+    margin-bottom: 20px;
 }
-
 .slide img {
     width: 100%;
-    height: auto; /* Preserve image aspect ratio */
-    display: block;
+    height: auto;
+    max-height: 80vh; /* Prevents overly tall images */
+    object-fit: contain;
     border-radius: 15px;
 }
-
-
 /* Edit & Delete Slide Buttons */
 .edit-slide, .delete-slide {
     background: rgba(255, 255, 255, 0.2);
@@ -58,12 +53,10 @@ body::before {
     transition: all 0.3s ease;
     margin: 5px;
 }
-
 .edit-slide:hover, .delete-slide:hover {
     background: rgba(255, 255, 255, 0.4);
     transform: scale(1.05);
 }
-
 /* Add Slide Button */
 .add-slide {
     display: block;
@@ -76,12 +69,10 @@ body::before {
     cursor: pointer;
     transition: 0.3s;
 }
-
 .add-slide:hover {
     background: rgba(255, 255, 255, 0.4);
     transform: scale(1.05);
 }
-
 /* Navigation Arrows */
 .prev, .next {
     position: absolute;
@@ -95,15 +86,12 @@ body::before {
     border-radius: 50%;
     user-select: none;
 }
-
 .prev {
     left: 10px;
 }
-
 .next {
     right: 10px;
 }
-
 .prev:hover, .next:hover {
     background: rgba(255, 255, 255, 0.8);
 }
@@ -128,12 +116,10 @@ button:hover {
 .fade {
     animation: fadeEffect 1.5s ease-in-out;
 }
-
 @keyframes fadeEffect {
     from { opacity: 0.4; }
     to { opacity: 1; }
 }
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .slideshow-container {
