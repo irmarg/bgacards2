@@ -252,6 +252,7 @@ function deleteSlide(id) {
 
 // --- Logout ---
 function setupLogoutButton() {
+    console.log('setupLogoutButton called');  // DEBUG LOG
     const logoutBtn = document.createElement('button');
     logoutBtn.textContent = 'Logout';
     logoutBtn.style.marginTop = '20px';
@@ -262,6 +263,7 @@ function setupLogoutButton() {
     logoutBtn.style.borderRadius = '5px';
     logoutBtn.style.cursor = 'pointer';
 
+    // Fix: Add click functionality
     logoutBtn.onclick = () => {
         localStorage.removeItem('isAdmin');
         alert('Logged out successfully.');
@@ -269,4 +271,5 @@ function setupLogoutButton() {
     };
 
     document.getElementById('logout-section').appendChild(logoutBtn);
+    console.log('Logout button appended');  // DEBUG LOG
 }
