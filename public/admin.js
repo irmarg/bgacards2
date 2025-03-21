@@ -109,8 +109,10 @@ function setPlayerForm(p) {
 }
 
 function clearPlayerForm() {
-    document.querySelectorAll('input').forEach(input => input.value = '');
+    document.querySelectorAll('#player-name, #player-position, #player-goals, #player-assists, #player-saves, #player-image, #player-number, #player-matches, #player-nickname')
+        .forEach(input => input.value = '');
 }
+
 
 function resetPlayerForm() {
     editingPlayerId = null;

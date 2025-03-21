@@ -7,7 +7,7 @@
     <script src="auth.js"></script>
     <script src="admin.js" defer></script>
 </head>
-<body onload="checkAuth();">
+<body>
     <h1>Admin Panel</h1>
 
     <!-- Player Form -->
@@ -19,39 +19,33 @@
     <input type="number" id="player-saves" placeholder="Saves">
     <input type="text" id="player-image" placeholder="Image URL">
     <input type="number" id="player-number" placeholder="Jersey Number">
-<input type="number" id="player-matches" placeholder="Matches Played">
-<input type="text" id="player-nickname" placeholder="Nickname">
-<button id="player-submit" onclick="addOrUpdatePlayer()">Add Player</button>
-
+    <input type="number" id="player-matches" placeholder="Matches Played">
+    <input type="text" id="player-nickname" placeholder="Nickname">
+    <button id="player-submit" onclick="addOrUpdatePlayer()">Add Player</button>
 
     <!-- Player List -->
     <h2>Players</h2>
-    <div id="player-list"></div>
+    <div id="player-list"></div> <!-- ← Players will appear here -->
 
     <!-- Game Form -->
-    <h2>Add Game</h2>
+    <h2>Add / Edit Game</h2>
     <input type="text" id="team1" placeholder="Team 1">
     <input type="text" id="team2" placeholder="Team 2">
     <input type="text" id="score" placeholder="Score">
     <input type="date" id="game-date">
-    <button onclick="addOrUpdateGame()">Add Game</button>
-
+    <button id="game-submit" onclick="addOrUpdateGame()">Add Game</button>
 
     <!-- Game List -->
     <h2>Games</h2>
-    <div id="game-list"></div>
+    <div id="game-list"></div> <!-- ← Games will appear here -->
 
     <!-- Slideshow Management -->
     <h2>Slideshow Images</h2>
     <input type="text" id="slide-image-url" placeholder="Image URL">
     <button onclick="addSlide()">Add Slide</button>
-    <div id="slide-list"></div>
+    <div id="slide-list"></div> <!-- ← Slides will appear here -->
 
-    <!-- Logout Button -->
-    <div id="logout-section">
-        <button onclick="localStorage.removeItem('isAdmin'); location.href='index.html';">
-            Logout
-        </button>
-    </div>
+    <!-- Logout Button (styled by JS) -->
+    <div id="logout-section"></div>
 </body>
 </html>
