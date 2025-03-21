@@ -1,4 +1,9 @@
-document.getElementById('search-button').addEventListener('click', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAllGames();  // Load all games when page loads
+    document.getElementById('search-button').addEventListener('click', handleSearch);
+});
+
+function handleSearch() {
     const filter = document.getElementById('filter-select').value;
     const query = document.getElementById('search-input').value.toLowerCase();
     const fromDate = document.getElementById('from-date').value;
@@ -8,17 +13,28 @@ document.getElementById('search-button').addEventListener('click', () => {
         .then(res => res.json())
         .then(games => {
             let filtered = games;
+
             if (filter === 'team') {
-                filtered = games.filter(g => g.team1.toLowerCase().includes(query) || g.team2.toLowerCase().includes(query));
+                filtered = games.filter(g => 
+                    g.team1.toLowerCase().includes(query) || g.team2.toLowerCase().includes(query)
+                );
             } else if (filter === 'date') {
                 filtered = games.filter(g => g.date === query);
             }
+
             if (fromDate && toDate) {
                 filtered = filtered.filter(g => g.date >= fromDate && g.date <= toDate);
             }
+
             renderGames(filtered);
         });
-});
+}
+
+function fetchAllGames() {
+    fetch('/api/games')
+        .then(res => res.json())
+        .then(games => renderGames(games));
+}
 
 function renderGames(games) {
     const container = document.getElementById('game-results');
