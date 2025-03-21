@@ -46,6 +46,10 @@
     <div id="slide-list"></div> <!-- ← Slides will appear here -->
 
     <!-- Logout Button (styled by JS) -->
-    <div id="logout-section"></div>
+    <div id="logout-section">
+        <button onclick="localStorage.removeItem('isAdmin'); location.href='index.html';">
+            Logout
+        </button>
+    </div>
 </body>
 </html>
