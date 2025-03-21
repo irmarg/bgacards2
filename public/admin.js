@@ -121,24 +121,28 @@ function resetPlayerForm() {
     document.getElementById('player-submit').textContent = 'Add Player';
 }
 
-// --- Games Management (still using index unless updated API) ---
+let editingGameId = null;
+
+// Load Games with Edit/Delete buttons
 function loadGames() {
     fetch('/api/games')
         .then(res => res.json())
         .then(games => {
             const list = document.getElementById('game-list');
             list.innerHTML = '';
-            games.forEach((g, index) => {
+            games.forEach(g => {
                 const div = document.createElement('div');
                 div.innerHTML = `
                     <strong>${g.team1} vs ${g.team2}</strong> - ${g.score} on ${g.date}
+                    <button onclick="startEditGame('${g._id}')">Edit</button>
+                    <button onclick="deleteGame('${g._id}')">Delete</button>
                 `;
                 list.appendChild(div);
             });
         });
 }
 
-function addGame() {
+function addOrUpdateGame() {
     const game = {
         team1: document.getElementById('team1').value,
         team2: document.getElementById('team2').value,
@@ -146,17 +150,67 @@ function addGame() {
         date: document.getElementById('game-date').value
     };
 
-    fetch('/api/games', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(game)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert('Game added!');
-        loadGames();
-    });
+    if (editingGameId) {
+        fetch(`/api/games/${editingGameId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(game)
+        })
+        .then(res => res.json())
+        .then(() => {
+            alert('Game updated!');
+            clearGameForm();
+            loadGames();
+        });
+    } else {
+        fetch('/api/games', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(game)
+        })
+        .then(res => res.json())
+        .then(() => {
+            alert('Game added!');
+            clearGameForm();
+            loadGames();
+        });
+    }
 }
+
+function startEditGame(id) {
+    fetch('/api/games')
+        .then(res => res.json())
+        .then(games => {
+            const g = games.find(game => game._id === id);
+            if (g) {
+                editingGameId = id;
+                document.getElementById('team1').value = g.team1;
+                document.getElementById('team2').value = g.team2;
+                document.getElementById('score').value = g.score;
+                document.getElementById('game-date').value = g.date;
+                document.querySelector('button[onclick="addGame()"]').textContent = 'Save Game';
+            }
+        });
+}
+
+function deleteGame(id) {
+    fetch(`/api/games/${id}`, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(() => {
+            alert('Game deleted!');
+            loadGames();
+        });
+}
+
+function clearGameForm() {
+    editingGameId = null;
+    document.getElementById('team1').value = '';
+    document.getElementById('team2').value = '';
+    document.getElementById('score').value = '';
+    document.getElementById('game-date').value = '';
+    document.querySelector('button[onclick="addGame()"]').textContent = 'Add Game';
+}
+
 
 // --- Slideshow Management ---
 function loadSlides() {
