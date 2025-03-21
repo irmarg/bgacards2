@@ -18,18 +18,13 @@ function handleSearch() {
                 filtered = games.filter(g => 
                     g.team1.toLowerCase().includes(query) || g.team2.toLowerCase().includes(query)
                 );
-            } else if (filter === 'date') {
-                filtered = games.filter(g => g.date === query);
-            }
-
-            if (fromDate && toDate) {
-                filtered = filtered.filter(g => g.date >= fromDate && g.date <= toDate);
+            } else if (filter === 'date' && fromDate && toDate) {
+                filtered = games.filter(g => g.date >= fromDate && g.date <= toDate);
             }
 
             renderGames(filtered);
         });
 }
-
 function fetchAllGames() {
     fetch('/api/games')
         .then(res => res.json())
