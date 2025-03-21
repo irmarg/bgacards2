@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let editingPlayerId = null;
+let editingGameId = null;
 
 // --- Load Players ---
 function loadPlayers() {
@@ -29,7 +30,6 @@ function loadPlayers() {
         });
 }
 
-// --- Add or Update Player ---
 function addOrUpdatePlayer() {
     const player = getPlayerInput();
 
@@ -60,7 +60,6 @@ function addOrUpdatePlayer() {
     }
 }
 
-// --- Edit Player ---
 function startEditPlayer(id) {
     fetch('/api/players')
         .then(res => res.json())
@@ -74,7 +73,6 @@ function startEditPlayer(id) {
         });
 }
 
-// --- Delete Player ---
 function deletePlayer(id) {
     fetch(`/api/players/${id}`, { method: 'DELETE' })
         .then(res => res.json())
@@ -84,7 +82,6 @@ function deletePlayer(id) {
         });
 }
 
-// --- Input Helpers ---
 function getPlayerInput() {
     return {
         name: document.getElementById('player-name').value,
@@ -121,9 +118,7 @@ function resetPlayerForm() {
     document.getElementById('player-submit').textContent = 'Add Player';
 }
 
-let editingGameId = null;
-
-// Load Games with Edit/Delete buttons
+// --- Load Games ---
 function loadGames() {
     fetch('/api/games')
         .then(res => res.json())
@@ -188,7 +183,7 @@ function startEditGame(id) {
                 document.getElementById('team2').value = g.team2;
                 document.getElementById('score').value = g.score;
                 document.getElementById('game-date').value = g.date;
-                document.querySelector('button[onclick="addGame()"]').textContent = 'Save Game';
+                document.getElementById('game-submit').textContent = 'Save Game';
             }
         });
 }
@@ -208,9 +203,8 @@ function clearGameForm() {
     document.getElementById('team2').value = '';
     document.getElementById('score').value = '';
     document.getElementById('game-date').value = '';
-    document.querySelector('button[onclick="addGame()"]').textContent = 'Add Game';
+    document.getElementById('game-submit').textContent = 'Add Game';
 }
-
 
 // --- Slideshow Management ---
 function loadSlides() {
@@ -253,7 +247,6 @@ function deleteSlide(id) {
             loadSlides();
         });
 }
-
 
 // --- Logout ---
 function setupLogoutButton() {
