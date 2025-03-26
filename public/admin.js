@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let editingPlayerId = null;
 let editingGameId = null;
 
-// --- Load Players ---
+
 function loadPlayers() {
     fetch('/api/players')
         .then(res => res.json())
@@ -252,7 +252,7 @@ function deleteSlide(id) {
 
 
 function setupLogoutButton() {
-    console.log('setupLogoutButton called');  // DEBUG LOG
+    console.log('setupLogoutButton called');  
     const logoutBtn = document.createElement('button');
     logoutBtn.textContent = 'Logout';
     logoutBtn.style.marginTop = '20px';
@@ -271,5 +271,5 @@ function setupLogoutButton() {
     };
 
     document.getElementById('logout-section').appendChild(logoutBtn);
-    console.log('Logout button appended');  // DEBUG LOG
+    console.log('Logout button appended');  
 }
