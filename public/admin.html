@@ -10,7 +10,7 @@
 <body>
     <h1>Admin Panel</h1>
 
-    <!-- Player Form -->
+    
     <h2>Add / Edit Player</h2>
     <input type="text" id="player-name" placeholder="Player Name">
     <input type="text" id="player-position" placeholder="Position">
@@ -23,11 +23,11 @@
     <input type="text" id="player-nickname" placeholder="Nickname">
     <button id="player-submit" onclick="addOrUpdatePlayer()">Add Player</button>
 
-    <!-- Player List -->
+    
     <h2>Players</h2>
-    <div id="player-list"></div> <!-- ← Players will appear here -->
+    <div id="player-list"></div> 
 
-    <!-- Game Form -->
+    
     <h2>Add / Edit Game</h2>
     <input type="text" id="team1" placeholder="Team 1">
     <input type="text" id="team2" placeholder="Team 2">
@@ -35,17 +35,17 @@
     <input type="date" id="game-date">
     <button id="game-submit" onclick="addOrUpdateGame()">Add Game</button>
 
-    <!-- Game List -->
+    
     <h2>Games</h2>
-    <div id="game-list"></div> <!-- ← Games will appear here -->
+    <div id="game-list"></div> 
 
-    <!-- Slideshow Management -->
+    
     <h2>Slideshow Images</h2>
     <input type="text" id="slide-image-url" placeholder="Image URL">
     <button onclick="addSlide()">Add Slide</button>
-    <div id="slide-list"></div> <!-- ← Slides will appear here -->
+    <div id="slide-list"></div> 
 
-    <!-- Logout Button (styled by JS) -->
+    
     <div id="logout-section">
         <button onclick="localStorage.removeItem('isAdmin'); location.href='index.html';">
             Logout
