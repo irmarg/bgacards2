@@ -1,4 +1,4 @@
-/* General Styling */
+
 body {
     font-family: "Poppins", sans-serif;
     text-align: center;
@@ -15,20 +15,20 @@ body::before {
     z-index: -1;
 }
 
-/* Title */
+
 .title {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 20px;
 }
-/* Ensure navbar layout stays consistent */
+
 .navbar {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
 }
 
-/* Search Bar */
+
 .search-container {
     margin: 20px auto;
     display: flex;
@@ -77,7 +77,7 @@ body::before {
     cursor: pointer;
 }
 
-/* Game Results */
+
 .game-results {
     display: flex;
     flex-wrap: wrap;
@@ -103,7 +103,7 @@ body::before {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .search-container {
         flex-direction: column;
