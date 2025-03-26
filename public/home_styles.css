@@ -1,4 +1,4 @@
-/* General Styling */
+
 body {
     font-family: "Poppins", sans-serif;
     text-align: center;
@@ -6,13 +6,13 @@ body {
     background-size: cover;
     color: white;
 }
-/* Title */
+
 .title {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 20px;
 }
-/* Ensure navbar layout stays consistent */
+
 .navbar {
     display: flex !important;
     justify-content: space-between !important;
@@ -26,7 +26,7 @@ body::before {
     background: rgba(0, 0, 0, 0.6);
     z-index: -1;
 }
-/* Slideshow */
+
 .slideshow-container {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(5px);
@@ -37,12 +37,12 @@ body::before {
 .slide img {
     width: 100%;
     height: auto;
-    max-height: 100vh; /* Prevents overly tall images */
-    max-width: 100vh; /* Prevents overly wide images */
+    max-height: 100vh; 
+    max-width: 100vh; 
     object-fit: contain;
     border-radius: 15px;
 }
-/* Navigation Arrows */
+
 .prev, .next {
     position: absolute;
     top: 50%;
@@ -103,7 +103,7 @@ button:hover {
     margin: 100px auto;
 }
 
-/* Fade Animation */
+
 .fade {
     animation: fadeEffect 1.5s ease-in-out;
 }
@@ -111,7 +111,7 @@ button:hover {
     from { opacity: 0.4; }
     to { opacity: 1; }
 }
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .slideshow-container {
         width: 90%;
