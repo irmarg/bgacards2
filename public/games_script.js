@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetchAllGames();  // Load all games when page loads
+    fetchAllGames();  
     document.getElementById('search-button').addEventListener('click', handleSearch);
 });
 
