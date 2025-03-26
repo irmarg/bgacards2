@@ -12,7 +12,7 @@ function login() {
     .then(data => {
         if (data.success) {
             localStorage.setItem('isAdmin', true);
-            window.location.href = 'admin.html';  // Redirect to dashboard
+            window.location.href = 'admin.html'; 
         } else {
             document.getElementById('error-message').textContent = 'Invalid credentials';
         }
@@ -26,10 +26,10 @@ function login() {
 function handleAdminClick() {
     const isAdmin = localStorage.getItem('isAdmin');
     if (isAdmin) {
-        // Already logged in → go to dashboard
+        
         window.location.href = 'admin.html';
     } else {
-        // Not logged in → go to login page
+       
         window.location.href = 'login.html';
     }
 }
