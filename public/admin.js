@@ -120,7 +120,7 @@ function resetPlayerForm() {
     document.getElementById('player-submit').textContent = 'Add Player';
 }
 
-// --- Load Games ---
+
 function loadGames() {
     fetch('/api/games')
         .then(res => res.json())
@@ -208,7 +208,7 @@ function clearGameForm() {
     document.getElementById('game-submit').textContent = 'Add Game';
 }
 
-// --- Slideshow Management ---
+
 function loadSlides() {
     fetch('/api/slides')
         .then(res => res.json())
@@ -250,7 +250,7 @@ function deleteSlide(id) {
         });
 }
 
-// --- Logout ---
+
 function setupLogoutButton() {
     console.log('setupLogoutButton called');  // DEBUG LOG
     const logoutBtn = document.createElement('button');
@@ -263,7 +263,7 @@ function setupLogoutButton() {
     logoutBtn.style.borderRadius = '5px';
     logoutBtn.style.cursor = 'pointer';
 
-    // Fix: Add click functionality
+    /
     logoutBtn.onclick = () => {
         localStorage.removeItem('isAdmin');
         alert('Logged out successfully.');
