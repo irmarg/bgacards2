@@ -36,7 +36,7 @@ const Slide = mongoose.model('Slide', slideSchema);
 const Player = mongoose.model('Player', playerSchema);
 const Game = mongoose.model('Game', gameSchema);
 
-// --- Players API ---
+
 app.get('/api/players', async (_req, res) => {
     const players = await Player.find();
     res.json(players);
