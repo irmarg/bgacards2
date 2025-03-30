@@ -6,11 +6,11 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-// --- MongoDB Connection ---
+
 const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
 mongoose.connect(MONGO_URI);
 
-// --- Mongoose Schemas ---
+
 const playerSchema = new mongoose.Schema({
     name: String,
     position: String,
@@ -99,7 +99,7 @@ app.delete('/api/slides/:id', async (req, res) => {
     res.json({ message: 'Slide deleted' });
 });
 
-// --- Login (Simple Hardcoded) ---
+
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (username === 'admin' && password === 'adminpassword') {
