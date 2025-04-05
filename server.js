@@ -8,7 +8,13 @@ app.use(express.static('public'));
 
 
 const MONGO_URI = 'mongodb+srv://admin:adminpassword@cluster0.hzsb2.mongodb.net/footballDB?retryWrites=true&w=majority';
-mongoose.connect(MONGO_URI);
+mongoose.connect(MONGO_URI)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => {
+        console.error('MongoDB connection error:', err);
+        process.exit(1);
+    });
+
 
 
 const playerSchema = new mongoose.Schema({
