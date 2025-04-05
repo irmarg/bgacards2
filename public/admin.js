@@ -263,7 +263,6 @@ function setupLogoutButton() {
     logoutBtn.style.borderRadius = '5px';
     logoutBtn.style.cursor = 'pointer';
 
-    /
     logoutBtn.onclick = () => {
         localStorage.removeItem('isAdmin');
         alert('Logged out successfully.');
